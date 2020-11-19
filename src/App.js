@@ -167,21 +167,21 @@ const App = () => {
   //     }    
   //     ,[])
 
-      // useEffect(() => {
-      //   axios
-      //     .get('http://s237-0075:3005/indalgo/management/optimizer/get_table_data/pending_production')
-      //     .then(res =>setData(res.data))
-      //     }    
-      //     ,[])
+      useEffect(() => {
+        axios
+          .get('http://s237-0075:3005/indalgo/management/optimizer/get_table_data/pending_production')
+          .then(res =>setData(res.data))
+          }    
+          ,[])
 
-      //     createOrderObjects(data)
+          createOrderObjects(data)
 
 
   return (
     
     <div>
     <h1>SteelReporter</h1>
-{/* <Show data={data}/> */}
+<Show data={data}/>
  
     </div>
     
