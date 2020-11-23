@@ -2,16 +2,9 @@
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
+
+
 
 .App-header {
   background-color: #282c34;
@@ -38,34 +31,55 @@
 }
 
 table{
-  border: 4px solid seagreen;
-  background-color:seagreen;
+  table-layout: fixed;
+  background-color:darkolivegreen;
   width: 100%;
+
+  
 }
 
 tbody{
   
   background-color: rgb(161, 159, 159);
+
 }
 thead{
   background-color: rgba(63, 61, 61, 0.973);
   color: antiquewhite;
   font-family: monospace;
+
 }
 
 td{
   font-weight: bold;
   font-family: monospace;
+  text-align: left;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: clip;
 }
 
 h1{
   padding: 0px;
   margin: 0px;
-  color: crimson;
-  background-color: black;
+  color: rgba(63, 61, 61, 0.973);
+  background-color: wheat;
   text-align: center;
+  font-family: 'sans-serif';
 }
 
 .sumLine{
   background-color: wheat;
+}
+
+th{
+  text-align: left;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: clip;
+}
+
+div.s{
+  white-space: nowrap;
+  text-overflow: clip;
 }
