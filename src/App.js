@@ -135,15 +135,12 @@ const Show = ({data}) => {
   
     let orderObjects = createOrderObjects(data)
 
-    console.log(orderObjects)
-
     return (
       <table>
         <thead>
           <tr>
             <th width="7%">PVM</th><th width="7%">Tilausnro</th><th width="15%">Kohde</th><th>Cador</th><th>Tupla</th><th>Pöytä</th><th>Syntax Line</th>
-            <th>Ympyrät</th><th>Concept</th><th>Mini Syntax</th><th>Format</th><th>Progress</th>
-            
+            <th>Ympyrät</th><th>Concept</th><th>Mini Syntax</th><th>Format</th><th>Progress</th>   
           </tr>
         </thead>
         <tbody>
@@ -160,15 +157,18 @@ const App = () => {
   const [data,setData] = useState([])
 
   useEffect(() => {
+    setInterval(() => {
     axios
     .get('http://s237-0075:3005/indalgo/management/optimizer/get_table_data/pending_production')
-    .then(res =>setData(res.data))
+    .then(res =>{setData(res.data) 
+          console.log(new Date())})
+    },120000)
     }      
   ,[])
 
   return(
     <div>
-      <h1>PSTEEL.NET</h1>
+      <h1>Pending Production</h1>
       <Show data={data}/>
     </div>
   )
