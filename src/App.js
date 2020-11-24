@@ -118,6 +118,9 @@ const Body = ({orderObjects}) => {
     }else{
       rivit=rivit.concat(printOneOrderLine(orderObjects[i]))
     }
+    if( i === orderObjects.length-1){
+      rivit = rivit.concat(printOneDayTotalWeightByMachineLine(orderObjects[i].lDate, orderObjects))
+    }
   }
   return rivit
 }
@@ -162,7 +165,7 @@ const App = () => {
     .get('http://s237-0075:3005/indalgo/management/optimizer/get_table_data/pending_production')
     .then(res =>{setData(res.data) 
           console.log(new Date())})
-    },120000)
+    },20000)
     }      
   ,[])
 
