@@ -32,22 +32,19 @@
 
 table{
   table-layout: fixed;
-  background-color:darkolivegreen;
   width: 100%;
-
-  
+  border-spacing: 1px;
+  background-color: black;
 }
 
 tbody{
-  
-  background-color: rgb(161, 159, 159);
-
+  background-color: lightgrey;
 }
-thead{
-  background-color: rgba(63, 61, 61, 0.973);
-  color: antiquewhite;
-  font-family: monospace;
 
+thead{
+  background-color: black;
+  color: lightgray;
+  font-family: monospace;
 }
 
 td{
@@ -62,14 +59,16 @@ td{
 h1{
   padding: 0px;
   margin: 0px;
-  color: rgba(63, 61, 61, 0.973);
-  background-color: wheat;
+  color:darkred;
+  background-image: linear-gradient( lightgrey, black);
   text-align: center;
-  font-family: 'sans-serif';
+  font-family: 'Orbitron', sans-serif;
+  font-size: large
 }
 
 .sumLine{
-  background-color: wheat;
+  background-color: black;
+  color:lightgray;
 }
 
 th{

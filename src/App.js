@@ -2,40 +2,42 @@ import React, { useState, useEffect} from 'react';
 import './App.css';
 import axios from 'axios'
 
-const printOneOrderLine = (r) => {
+
+
+const printOneOrderLine = (r) => {  
   return( 
-    <tr key={r.so}> 
-      <td>{r.lDate}</td>
-      <td>{r.so}</td>                                         
-      <td>{r.site}</td>                                                
-      <td>{r.machines.Cador}</td>
-      <td>{r.machines.Permatic}</td>
-      <td>{r.machines.Perfekt}</td>
-      <td>{r.machines.Syntax}</td>
-      <td>{r.machines.Ympyrät}</td>
-      <td>{r.machines.Concept}</td>                                           
-      <td>{r.machines.MiniSyntax}</td>
-      <td>{r.machines.Format}</td>
-      <td>{r.machines.Progress}</td>
+    <tr key={r.orderId+r.loadingDate}> 
+      <td>{r.loadingDate}</td>
+      <td>{r.orderId}</td>                                         
+      <td>{r.buildingSite}</td>                                                
+      <td>{r.cadorKg}</td>
+      <td>{r.permaticKg}</td>
+      <td>{r.perfektKg}</td>
+      <td>{r.syntaxKg}</td>
+      <td>{r.ympyratKg}</td>
+      <td>{r.conceptKg}</td>                                           
+      <td>{r.minisyntaxKg}</td>
+      <td>{r.formatKg}</td>
+      <td>{r.progressKg}</td>
     </tr>
   )
 }
 
 const printOneOrderLineNodate = (r) => {
   return(
-    <tr key={r.so}> 
+    <tr key={r.orderId+r.loadingDate}> 
       <td>{''}</td>
-      <td>{r.so}</td>                                          
-      <td>{r.site}</td>                                              
-      <td>{r.machines.Cador}</td>
-      <td>{r.machines.Permatic}</td>
-      <td>{r.machines.Perfekt}</td>
-      <td>{r.machines.Syntax}</td>
-      <td>{r.machines.Ympyrät}</td>
-      <td>{r.machines.Concept}</td>                                           
-      <td>{r.machines.MiniSyntax}</td>
-      <td>{r.machines.Format}</td>
-      <td>{r.machines.Progress}</td>
+      <td>{r.orderId}</td>                                          
+      <td>{r.buildingSite}</td>                                              
+      <td>{r.cadorKg}</td>
+      <td>{r.permaticKg}</td>
+      <td>{r.perfektKg}</td>
+      <td>{r.syntaxKg}</td>
+      <td>{r.ympyratKg}</td>
+      <td>{r.conceptKg}</td>                                           
+      <td>{r.minisyntaxKg}</td>
+      <td>{r.formatKg}</td>
+      <td>{r.progressKg}</td>
     </tr>
   )
 }
@@ -43,10 +45,21 @@ const printOneOrderLineNodate = (r) => {
 const printOneDayTotalWeightByMachineLine = (day, data) => {
   let allMachines = {Cador:null, Permatic:null, Perfekt:null, Syntax:null, Ympyrät:null, Concept:null, MiniSyntax:null, Format:null, Progress:null}
   for(let i = 0; i<data.length; i++){
-    if(data[i].lDate.includes(day)){  
-      for(let c = 0; c<Object.keys(data[i].machines).length; c++){
-        allMachines[Object.keys(data[i].machines)[c]] += data[i].machines[Object.keys(data[i].machines)[c]]
-      }
+    if(data[i].loadingDate.includes(day)){    
+        allMachines.Cador += data[i].cadorKg
+        allMachines.Permatic += data[i].permaticKg
+        allMachines.Perfekt += data[i].perfektKg
+        allMachines.Syntax += data[i].syntaxKg
+        allMachines.Ympyrät += data[i].ympyratKg
+        allMachines.Concept += data[i].conceptKg
+        allMachines.MiniSyntax += data[i].minisyntaxKg
+        allMachines.Format += data[i].formatKg
+        allMachines.Progress += data[i].progressKg
+    }
+  }
+  for(let i = 0; i < Object.keys(allMachines).length; i++){
+    if(allMachines[Object.keys(allMachines)[i]] === 0){
+      allMachines[Object.keys(allMachines)[i]] = null
     }
   }
   return(
@@ -67,59 +80,21 @@ const printOneDayTotalWeightByMachineLine = (day, data) => {
   )
 }
 
-const createOrderObjects = (data) => {
-  let orderObjects = []
-  orderObjects[0] = {
-    so: data[0].order_id,
-    lDate: data[0].loading_date,
-    site: data[0].building_site,
-    machines: {
-      [data[0].machine]: data[0].weight_kg,
-    }
-  }
-
-  for(let i = 1; i < data.length; i++){
-    for(let c = 0; c < orderObjects.length; c++){
-      if(data[i].order_id === orderObjects[c].so){
-        if(Object.keys(orderObjects[c].machines).includes(data[i].machine_name)){
-          orderObjects[c].machines[data[i].machine_name] += data[i].weight_kg
-        }else{
-          orderObjects[c].machines[data[i].machine_name] = data[i].weight_kg
-        }
-        break
-      }
-      if(c === orderObjects.length - 1){
-        orderObjects = orderObjects.concat({
-          so: data[i].order_id,
-          lDate: data[i].loading_date,
-          site: data[i].building_site,
-          machines: {
-            [data[i].machine_name]: data[i].weight_kg
-          }
-        })
-        c++
-      }
-    }
-  }
-  orderObjects = orderObjects.sort((a,b) => a.lDate.replaceAll('-','') -b.lDate.replaceAll('-',''))
-  return orderObjects
-}
-
-const Body = ({orderObjects}) => {
+const Body = ({data}) => {
   let rivit = []
-  rivit[0] = printOneOrderLine(orderObjects[0])
+  rivit[0] = printOneOrderLine(data[0])
 
-  for(let i = 1; i<orderObjects.length;i++){
-    if(orderObjects[i].lDate !== orderObjects[i-1].lDate){
-      rivit = rivit.concat(printOneDayTotalWeightByMachineLine(orderObjects[i-1].lDate, orderObjects))
+  for(let i = 1; i<data.length;i++){
+    if(data[i].loadingDate !== data[i-1].loadingDate){
+      rivit = rivit.concat(printOneDayTotalWeightByMachineLine(data[i-1].loadingDate, data))
     }
-    if(orderObjects[i].lDate === orderObjects[i-1].lDate){
-    rivit = rivit.concat(printOneOrderLineNodate(orderObjects[i]))
+    if(data[i].loadingDate === data[i-1].loadingDate){
+    rivit = rivit.concat(printOneOrderLineNodate(data[i]))
     }else{
-      rivit=rivit.concat(printOneOrderLine(orderObjects[i]))
+      rivit=rivit.concat(printOneOrderLine(data[i]))
     }
-    if( i === orderObjects.length-1){
-      rivit = rivit.concat(printOneDayTotalWeightByMachineLine(orderObjects[i].lDate, orderObjects))
+    if( i === data.length-1){
+      rivit = rivit.concat(printOneDayTotalWeightByMachineLine(data[i].loadingDate, data))
     }
   }
   return rivit
@@ -127,51 +102,86 @@ const Body = ({orderObjects}) => {
 
 const Show = ({data}) => {
   if(data.length>1){
-    data.forEach(e => {
-      if(e.machine_name.includes('Mini S')){e.machine_name = 'MiniSyntax'}
-      if(e.machine_name.includes('Perf')){e.machine_name = 'Perfekt'}
-      if(e.machine_name.includes('ine')){e.machine_name = 'Syntax'}  
-      if(e.machine_name.includes('iraa')){e.machine_name = 'Ympyrät'}
-      if(e.machine_name.includes('adius')){e.machine_name = 'Ympyrät'}
-
-    })
-  
-    let orderObjects = createOrderObjects(data)
-
+    const pData = formatData(data)
     return (
       <table>
         <thead>
           <tr>
-            <th width="7%">PVM</th><th width="7%">Tilausnro</th><th width="15%">Kohde</th><th>Cador</th><th>Tupla</th><th>Pöytä</th><th>Syntax Line</th>
-            <th>Ympyrät</th><th>Concept</th><th>Mini Syntax</th><th>Format</th><th>Progress</th>   
+            <th width="7%">PVM</th><th width="7%">Tilausnro</th><th width="15%">Kohde</th><th>Cador</th><th>Tupla</th><th>Pöytä</th><th>Syntax</th>
+            <th>Ympyrät</th><th>Concept</th><th>Mini-Syntax</th><th>Format</th><th>Progress</th>   
           </tr>
         </thead>
-        <tbody>
-          <Body orderObjects={orderObjects}/>
-        </tbody>
+         <tbody>
+          <Body data={pData}/>
+         </tbody>
       </table>
     )
   }
   return 'Ladataan...'
 }
 
+const formatData = (data) => {
+  if(data.length > 1){
+    let newData = []
+    for(let i = 0 ; i < data.length ; i++){
+      if(!(data[i].building_site === "" || data[i].order_id.includes('ai'))){ 
+        let tempOrder = {
+          loadingDate: data[i].loading_date,
+          orderId: data[i].order_id,
+          buildingSite: data[i].building_site,
+          cadorKg: data[i].cador_kg === undefined ? null : data[i].cador_kg === 0 ? null : Math.round(data[i].cador_kg), 
+          conceptKg: data[i].concept_kg === undefined ? null : data[i].concept_kg === 0 ? null : Math.round(data[i].concept_kg),
+          formatKg: data[i].format_kg === undefined ? null : data[i].format_kg === 0 ? null : Math.round(data[i].format_kg),
+          manualShearKg: data[i].manual_shear_kg === undefined ? null : data[i].manual_shear_kg === 0 ? null : Math.round(data[i].manual_shear_kg),
+          minisyntaxKg: data[i].minisyntax_kg === undefined ? null : data[i].minisyntax_kg === 0 ? null : Math.round(data[i].minisyntax_kg),
+          perf2Kg: data[i].perf2_kg === undefined ? null : data[i].perf2_kg === 0 ? null : Math.round(data[i].perf2_kg),
+          perfKg: data[i].perf_kg === undefined ? null : data[i].perf_kg === 0 ? null : Math.round(data[i].perf_kg),
+          permaticKg: data[i].permatic_kg === undefined ? null : data[i].permatic_kg === 0 ? null : Math.round(data[i].permatic_kg),
+          progressKg: data[i].progress_kg === undefined ? null : data[i].progress_kg === 0 ? null : Math.round(data[i].progress_kg),
+          radiusBenderKg: data[i].radius_bender_kg === undefined ? null : data[i].radius_bender_kg === 0 ? null : Math.round(data[i].radius_bender_kg),
+          spiralKg: data[i].spiral_kg === undefined ? null : data[i].spiral_kg === 0 ? null : Math.round(data[i].spiral_kg),
+          syntaxKg: data[i].syntax_kg === undefined ? null : data[i].syntax_kg === 0 ? null : Math.round(data[i].syntax_kg),
+          perf3Kg: data[i].perf3_kg === undefined ? null : data[i].perf3_kg === 0 ? null : Math.round(data[i].perf3_kg)
+        }
+        const poydat = tempOrder.perfKg + tempOrder.perf2Kg + tempOrder.perf3Kg
+        delete tempOrder['perfKg']
+        delete tempOrder['perf2Kg']
+        delete tempOrder['perf3Kg']
+        tempOrder.perfektKg = poydat === 0 ? null : poydat
+
+        const ympyrat = tempOrder.radiusBenderKg + tempOrder.spiralKg
+        delete tempOrder['radiusBenderKg']
+        delete tempOrder['spiralKg']
+        tempOrder.ympyratKg = ympyrat === 0 ? null : ympyrat
+
+        newData.push(tempOrder)
+      }
+    }
+    newData = newData.sort((a,b) => a.loadingDate.replaceAll('-','') - b.loadingDate.replaceAll('-',''))
+    return newData
+  }
+}
+
 const App = () => {
 
   const [data,setData] = useState([])
 
+  const url2 = 'http://s237-0075:3005/indalgo/management/optimizer/production_report.json'
+
   useEffect(() => {
     setInterval(() => {
     axios
-    .get('http://s237-0075:3005/indalgo/management/optimizer/get_table_data/pending_production')
+    .get(url2)
     .then(res =>{setData(res.data) 
-          console.log(new Date())})
+      // console.log(new Date())
+          })
     },20000)
     }      
   ,[])
 
   return(
     <div>
-      <h1>Pending Production</h1>
+      <h1>STEELNET</h1>
       <Show data={data}/>
     </div>
   )
