@@ -54,6 +54,8 @@ td{
   white-space: nowrap;
   overflow: hidden;
   text-overflow: clip;
+  font-size: large;
+  font-size: 1vw;
 }
 
 h1{
@@ -63,12 +65,13 @@ h1{
   background-image: linear-gradient( lightgrey, black);
   text-align: center;
   font-family: 'Orbitron', sans-serif;
-  font-size: large
+  font-size: 2vw
 }
 
 .sumLine{
   background-color: black;
   color:lightgray;
+  font-size: 1.2vw;
 }
 
 th{
@@ -76,6 +79,7 @@ th{
   white-space: nowrap;
   overflow: hidden;
   text-overflow: clip;
+  font-size: 1.2vw;
 }
 
 div.s{
