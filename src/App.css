@@ -1,9 +1,12 @@
 .App {
   text-align: center;
+
 }
 
 
-
+body {
+  background-color:lightgrey;
+}
 
 
 .App-header {
@@ -33,56 +36,70 @@
 table{
   table-layout: fixed;
   width: 100%;
-  border-spacing: 1px;
+  border-spacing: 0px;
   background-color: black;
+
 }
 
 tbody{
   background-color: lightgrey;
+  color: black;
+
 }
 
 thead{
   background-color: black;
   color: lightgray;
   font-family: monospace;
+
 }
 
 td{
   font-weight: bold;
   font-family: monospace;
-  text-align: left;
+  text-align: center;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: clip;
   font-size: large;
-  font-size: 1vw;
+  font-size: 1.1vw;
+  border: 1px solid black;
+  
+
 }
 
 h1{
   padding: 0px;
   margin: 0px;
-  color:darkred;
+  color: darkred;
   background-image: linear-gradient( lightgrey, black);
   text-align: center;
   font-family: 'Orbitron', sans-serif;
-  font-size: 2vw
+  font-size: 2vw;
 }
 
 .sumLine{
   background-color: black;
   color:lightgray;
-  font-size: 1.2vw;
+  font-size: 1.1vw;
+  
 }
 
 th{
-  text-align: left;
+  text-align: center;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: clip;
-  font-size: 1.2vw;
+  font-size: 1.1vw;
+  font-family: 'Orbitron', sans-serif;
+ 
 }
 
 div.s{
   white-space: nowrap;
   text-overflow: clip;
+}
+
+.kohde{
+  text-align: left;
 }

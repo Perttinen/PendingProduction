@@ -4,6 +4,7 @@ import axios from 'axios'
 
 
 
+
 const printOneOrderLine = (r) => {  
   return( 
     <tr key={r.orderId+r.loadingDate}> 
@@ -27,7 +28,7 @@ const printOneOrderLineNodate = (r) => {
   return(
     <tr key={r.orderId+r.loadingDate}> 
       <td>{''}</td>
-      <td>{r.orderId}</td>                                          
+      <td>{r.orderId }</td>                                          
       <td>{r.buildingSite}</td>                                              
       <td>{r.cadorKg}</td>
       <td>{r.permaticKg}</td>
@@ -107,8 +108,8 @@ const Show = ({data}) => {
       <table>
         <thead>
           <tr>
-            <th width="7%">PVM</th><th width="7%">Tilausnro</th><th width="15%">Kohde</th><th>Cador</th><th>Tupla</th><th>Pöytä</th><th>Syntax</th>
-            <th>Ympyrät</th><th>Concept</th><th>Mini-Syntax</th><th>Format</th><th>Progress</th>   
+            <th width="7%" >lastaus pv</th><th width="7%">tilausnro</th><th width="15%">kohde</th><th>cador</th><th>tupla</th><th>pöytä</th><th>syntax</th>
+            <th>ympyrät</th><th>concept</th><th>mini-syntax</th><th>format</th><th>progress</th>   
           </tr>
         </thead>
          <tbody>
@@ -169,20 +170,26 @@ const App = () => {
   const url2 = 'http://s237-0075:3005/indalgo/management/optimizer/production_report.json'
 
   useEffect(() => {
-    setInterval(() => {
+    // setInterval(() => {
     axios
     .get(url2)
     .then(res =>{setData(res.data) 
       // console.log(new Date())
           })
-    },20000)
+    // },20000)
     }      
   ,[])
 
+  const pop = () => {
+    alert('popopo')
+  }
+
   return(
     <div>
+
       <h1>STEELNET</h1>
       <Show data={data}/>
+
     </div>
   )
 }
